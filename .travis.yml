@@ -1,0 +1,19 @@
+language: go
+
+go:
+  - 1.12.x
+  - master
+
+git:
+  depth: 1
+
+before_script:
+  - export GO111MODULE=on
+  - go install github.com/golangci/golangci-lint/cmd/golangci-lint
+
+script:
+  - golangci-lint run       
+  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./... 
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
